@@ -1,0 +1,212 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @default(uuid())
+  name          String
+  email         String   @unique
+  passwordHash  String   @map("password_hash")
+  phone         String?
+  avatarUrl     String?  @map("avatar_url")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  notes              Note[]
+  memories           Memory[]
+  files              File[]
+  passwords          Password[]
+  services           Service[]
+  clients            Client[]
+  payments           Payment[]
+  transactions       Transaction[]
+  reminders          Reminder[]
+  whatsappSessions   WhatsappSession[]
+
+  @@map("users")
+}
+
+model Note {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  title     String
+  content   String?  @db.Text
+  category  String?
+  tags      String[]
+  isPinned  Boolean  @default(false) @map("is_pinned")
+  color     String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notes")
+}
+
+model Memory {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  title       String
+  description String?  @db.Text
+  memoryDate  DateTime? @map("memory_date") @db.Date
+  location    String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("memories")
+}
+
+model File {
+  id            String   @id @default(uuid())
+  userId        String   @map("user_id")
+  referenceType String?  @map("reference_type")
+  referenceId   String?  @map("reference_id")
+  fileName      String   @map("file_name")
+  fileType      String?  @map("file_type")
+  fileUrl       String   @map("file_url") @db.Text
+  fileSize      BigInt?  @map("file_size")
+  mimeType      String?  @map("mime_type")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("files")
+}
+
+model Password {
+  id                String   @id @default(uuid())
+  userId            String   @map("user_id")
+  serviceName       String   @map("service_name")
+  username          String?
+  email             String?
+  passwordEncrypted String   @map("password_encrypted") @db.Text
+  url               String?  @db.Text
+  notes             String?  @db.Text
+  category          String?
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("passwords")
+}
+
+model Service {
+  id            String    @id @default(uuid())
+  userId        String    @map("user_id")
+  serviceName   String    @map("service_name")
+  description   String?   @db.Text
+  provider      String?
+  contractStart DateTime? @map("contract_start") @db.Date
+  contractEnd   DateTime? @map("contract_end") @db.Date
+  monthlyCost   Decimal?  @map("monthly_cost") @db.Decimal(10, 2)
+  status        String?
+  notes         String?   @db.Text
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  payments Payment[]
+
+  @@map("services")
+}
+
+model Client {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  name      String
+  email     String?
+  phone     String?
+  company   String?
+  address   String?  @db.Text
+  notes     String?  @db.Text
+  status    String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  payments Payment[]
+
+  @@map("clients")
+}
+
+model Payment {
+  id            String    @id @default(uuid())
+  userId        String    @map("user_id")
+  clientId      String?   @map("client_id")
+  serviceId     String?   @map("service_id")
+  description   String
+  amount        Decimal   @db.Decimal(10, 2)
+  paymentType   String    @map("payment_type")
+  paymentMethod String?   @map("payment_method")
+  dueDate       DateTime? @map("due_date") @db.Date
+  paidDate      DateTime? @map("paid_date") @db.Date
+  status        String
+  notes         String?   @db.Text
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  client  Client?  @relation(fields: [clientId], references: [id], onDelete: SetNull)
+  service Service? @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+
+  @@map("payments")
+}
+
+model Transaction {
+  id              String   @id @default(uuid())
+  userId          String   @map("user_id")
+  description     String
+  amount          Decimal  @db.Decimal(10, 2)
+  transactionType String   @map("transaction_type")
+  category        String?
+  transactionDate DateTime @map("transaction_date") @db.Date
+  paymentMethod   String?  @map("payment_method")
+  notes           String?  @db.Text
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("transactions")
+}
+
+model Reminder {
+  id                 String    @id @default(uuid())
+  userId             String    @map("user_id")
+  title              String
+  description        String?   @db.Text
+  reminderDate       DateTime  @map("reminder_date")
+  isRecurring        Boolean   @default(false) @map("is_recurring")
+  recurrencePattern  String?   @map("recurrence_pattern")
+  isCompleted        Boolean   @default(false) @map("is_completed")
+  priority           String?
+  notificationSent   Boolean   @default(false) @map("notification_sent")
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime  @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("reminders")
+}
+
+model WhatsappSession {
+  id              String    @id @default(uuid())
+  userId          String    @map("user_id")
+  phoneNumber     String    @unique @map("phone_number")
+  sessionToken    String?   @map("session_token") @db.Text
+  isActive        Boolean   @default(true) @map("is_active")
+  lastInteraction DateTime? @map("last_interaction")
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("whatsapp_sessions")
+}

@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "Bash(grep:*)",
+      "Bash(if [ -f .env ])",
+      "Bash(then sed -i 's/FRONTEND_URL=http:\\\\/\\\\/localhost:5173/FRONTEND_URL=http:\\\\/\\\\/localhost:5174/g' .env)",
+      "Bash(else echo \"Arquivo .env não existe ainda. Será criado quando você executar o setup.bat\")",
+      "Bash(fi)",
+      "Bash(find:*)",
+      "Bash(git init:*)",
+      "Bash(git config:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}
