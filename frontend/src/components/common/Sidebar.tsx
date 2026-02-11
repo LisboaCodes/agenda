@@ -9,6 +9,7 @@ import {
   DollarSign,
   Bell,
   Briefcase,
+  Settings,
 } from 'lucide-react';
 
 const navItems = [
@@ -21,11 +22,12 @@ const navItems = [
   { path: '/services', icon: Briefcase, label: 'Serviços' },
   { path: '/financial', icon: DollarSign, label: 'Financeiro' },
   { path: '/reminders', icon: Bell, label: 'Lembretes' },
+  { path: '/settings', icon: Settings, label: 'Configurações' },
 ];
 
 export const Sidebar = () => {
   return (
-    <aside className="w-64 bg-white border-r border-gray-200 min-h-[calc(100vh-4rem)]">
+    <aside className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 min-h-[calc(100vh-4rem)] transition-colors duration-200">
       <nav className="p-4">
         <ul className="space-y-2">
           {navItems.map((item) => (
@@ -35,8 +37,8 @@ export const Sidebar = () => {
                 className={({ isActive }) =>
                   `flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                     isActive
-                      ? 'bg-primary-50 text-primary-700 font-medium'
-                      : 'text-gray-700 hover:bg-gray-50'
+                      ? 'bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400 font-medium'
+                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
                   }`
                 }
               >

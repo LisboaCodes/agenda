@@ -29,11 +29,11 @@ export const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 to-primary-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 to-primary-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4 transition-colors duration-200">
       <Card className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-primary-600 mb-2">CONTROLE</h1>
-          <p className="text-gray-600">Crie sua conta</p>
+          <h1 className="text-3xl font-bold text-primary-600 dark:text-primary-400 mb-2">CONTROLE</h1>
+          <p className="text-gray-600 dark:text-gray-400">Crie sua conta</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -77,9 +77,9 @@ export const Register = () => {
           </Button>
         </form>
 
-        <p className="text-center mt-6 text-sm text-gray-600">
+        <p className="text-center mt-6 text-sm text-gray-600 dark:text-gray-400">
           Já tem uma conta?{' '}
-          <Link to="/login" className="text-primary-600 font-medium hover:underline">
+          <Link to="/login" className="text-primary-600 dark:text-primary-400 font-medium hover:underline">
             Fazer login
           </Link>
         </p>

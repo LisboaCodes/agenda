@@ -27,11 +27,11 @@ export const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 to-primary-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 to-primary-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4 transition-colors duration-200">
       <Card className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-primary-600 mb-2">CONTROLE</h1>
-          <p className="text-gray-600">Sua agenda pessoal completa</p>
+          <h1 className="text-3xl font-bold text-primary-600 dark:text-primary-400 mb-2">CONTROLE</h1>
+          <p className="text-gray-600 dark:text-gray-400">Sua agenda pessoal completa</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -58,9 +58,9 @@ export const Login = () => {
           </Button>
         </form>
 
-        <p className="text-center mt-6 text-sm text-gray-600">
+        <p className="text-center mt-6 text-sm text-gray-600 dark:text-gray-400">
           Não tem uma conta?{' '}
-          <Link to="/register" className="text-primary-600 font-medium hover:underline">
+          <Link to="/register" className="text-primary-600 dark:text-primary-400 font-medium hover:underline">
             Criar conta
           </Link>
         </p>

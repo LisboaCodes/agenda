@@ -93,10 +93,10 @@ export const Dashboard = () => {
   return (
     <div className="p-6">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">
+        <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">
           Bem-vindo, {user?.name}!
         </h1>
-        <p className="text-gray-600">
+        <p className="text-gray-600 dark:text-gray-400">
           Aqui está um resumo das suas informações
         </p>
       </div>
@@ -106,11 +106,11 @@ export const Dashboard = () => {
           <Card key={stat.title}>
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600 mb-1">{stat.title}</p>
-                <p className="text-3xl font-bold text-gray-800">{stat.value}</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">{stat.title}</p>
+                <p className="text-3xl font-bold text-gray-800 dark:text-white">{stat.value}</p>
               </div>
-              <div className={`${stat.bg} p-3 rounded-full`}>
-                <stat.icon className={`w-6 h-6 ${stat.color}`} />
+              <div className={`${stat.bg} dark:bg-opacity-20 p-3 rounded-full`}>
+                <stat.icon className={`w-6 h-6 ${stat.color} dark:opacity-90`} />
               </div>
             </div>
           </Card>
@@ -119,10 +119,10 @@ export const Dashboard = () => {
         <Card>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600 mb-1">Saldo</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Saldo</p>
               <p
                 className={`text-3xl font-bold ${
-                  stats.balance >= 0 ? 'text-green-600' : 'text-red-600'
+                  stats.balance >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
                 }`}
               >
                 R$ {stats.balance.toFixed(2)}
@@ -130,13 +130,13 @@ export const Dashboard = () => {
             </div>
             <div
               className={`${
-                stats.balance >= 0 ? 'bg-green-50' : 'bg-red-50'
+                stats.balance >= 0 ? 'bg-green-50 dark:bg-green-900/20' : 'bg-red-50 dark:bg-red-900/20'
               } p-3 rounded-full`}
             >
               {stats.balance >= 0 ? (
-                <TrendingUp className="w-6 h-6 text-green-600" />
+                <TrendingUp className="w-6 h-6 text-green-600 dark:text-green-400" />
               ) : (
-                <TrendingDown className="w-6 h-6 text-red-600" />
+                <TrendingDown className="w-6 h-6 text-red-600 dark:text-red-400" />
               )}
             </div>
           </div>
@@ -145,11 +145,11 @@ export const Dashboard = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card title="Atividade Recente">
-          <p className="text-gray-500">Nenhuma atividade recente</p>
+          <p className="text-gray-500 dark:text-gray-400">Nenhuma atividade recente</p>
         </Card>
 
         <Card title="Lembretes Próximos">
-          <p className="text-gray-500">Nenhum lembrete próximo</p>
+          <p className="text-gray-500 dark:text-gray-400">Nenhum lembrete próximo</p>
         </Card>
       </div>
     </div>

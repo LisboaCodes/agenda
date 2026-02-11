@@ -2,8 +2,11 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { ThemeProvider } from './contexts/ThemeContext';
 import { Header } from './components/common/Header';
 import { Sidebar } from './components/common/Sidebar';
+import { PWAInstallPrompt } from './components/common/PWAInstallPrompt';
+import { NotificationPrompt } from './components/common/NotificationPrompt';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Dashboard } from './pages/Dashboard';
@@ -15,6 +18,7 @@ import { Services } from './pages/Services';
 import { Clients } from './pages/Clients';
 import { Financial } from './pages/Financial';
 import { Reminders } from './pages/Reminders';
+import { Settings } from './pages/Settings';
 
 const queryClient = new QueryClient();
 
@@ -37,7 +41,7 @@ const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
       <Header />
       <div className="flex">
         <Sidebar />
@@ -51,104 +55,118 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <AuthProvider>
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route
-              path="/dashboard"
-              element={
-                <PrivateRoute>
-                  <Layout>
-                    <Dashboard />
-                  </Layout>
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/notes"
-              element={
-                <PrivateRoute>
-                  <Layout>
-                    <Notes />
-                  </Layout>
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/memories"
-              element={
-                <PrivateRoute>
-                  <Layout>
-                    <Memories />
-                  </Layout>
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/files"
-              element={
-                <PrivateRoute>
-                  <Layout>
-                    <Files />
-                  </Layout>
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/passwords"
-              element={
-                <PrivateRoute>
-                  <Layout>
-                    <Passwords />
-                  </Layout>
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/services"
-              element={
-                <PrivateRoute>
-                  <Layout>
-                    <Services />
-                  </Layout>
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/clients"
-              element={
-                <PrivateRoute>
-                  <Layout>
-                    <Clients />
-                  </Layout>
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/financial"
-              element={
-                <PrivateRoute>
-                  <Layout>
-                    <Financial />
-                  </Layout>
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/reminders"
-              element={
-                <PrivateRoute>
-                  <Layout>
-                    <Reminders />
-                  </Layout>
-                </PrivateRoute>
-              }
-            />
-            <Route path="/" element={<Navigate to="/dashboard" />} />
-          </Routes>
-          <Toaster position="top-right" />
-        </AuthProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route
+                path="/dashboard"
+                element={
+                  <PrivateRoute>
+                    <Layout>
+                      <Dashboard />
+                    </Layout>
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/notes"
+                element={
+                  <PrivateRoute>
+                    <Layout>
+                      <Notes />
+                    </Layout>
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/memories"
+                element={
+                  <PrivateRoute>
+                    <Layout>
+                      <Memories />
+                    </Layout>
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/files"
+                element={
+                  <PrivateRoute>
+                    <Layout>
+                      <Files />
+                    </Layout>
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/passwords"
+                element={
+                  <PrivateRoute>
+                    <Layout>
+                      <Passwords />
+                    </Layout>
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/services"
+                element={
+                  <PrivateRoute>
+                    <Layout>
+                      <Services />
+                    </Layout>
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/clients"
+                element={
+                  <PrivateRoute>
+                    <Layout>
+                      <Clients />
+                    </Layout>
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/financial"
+                element={
+                  <PrivateRoute>
+                    <Layout>
+                      <Financial />
+                    </Layout>
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/reminders"
+                element={
+                  <PrivateRoute>
+                    <Layout>
+                      <Reminders />
+                    </Layout>
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/settings"
+                element={
+                  <PrivateRoute>
+                    <Layout>
+                      <Settings />
+                    </Layout>
+                  </PrivateRoute>
+                }
+              />
+              <Route path="/" element={<Navigate to="/dashboard" />} />
+            </Routes>
+            <Toaster position="top-right" />
+            <PWAInstallPrompt />
+            <NotificationPrompt />
+          </AuthProvider>
+        </ThemeProvider>
       </BrowserRouter>
     </QueryClientProvider>
   );

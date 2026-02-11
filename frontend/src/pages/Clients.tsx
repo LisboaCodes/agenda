@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { Card } from '../components/common/Card';
 import { Button } from '../components/common/Button';
 import { Input } from '../components/common/Input';
+import { Pagination } from '../components/common/Pagination';
+import { usePagination } from '../hooks/usePagination';
 import api from '../services/api';
 import { Client } from '../types';
 import { Plus, Trash2, Edit, Mail, Phone } from 'lucide-react';
@@ -78,10 +80,29 @@ export const Clients = () => {
     setShowForm(false);
   };
 
+  // Pagination
+  const {
+    currentPage,
+    totalPages,
+    totalItems,
+    itemsPerPage,
+    paginatedData,
+    goToPage,
+    setItemsPerPage,
+  } = usePagination({
+    data: clients,
+    initialItemsPerPage: 12,
+  });
+
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-gray-800">Clientes</h1>
+        <div>
+          <h1 className="text-3xl font-bold text-gray-800 dark:text-white">Clientes</h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">
+            {totalItems} {totalItems === 1 ? 'cliente' : 'clientes'}
+          </p>
+        </div>
         <Button onClick={() => setShowForm(!showForm)}>
           <Plus className="w-4 h-4 mr-2" />
           Novo Cliente
@@ -114,7 +135,7 @@ export const Clients = () => {
               onChange={(e) => setFormData({ ...formData, company: e.target.value })}
             />
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Observações
               </label>
               <textarea
@@ -133,50 +154,65 @@ export const Clients = () => {
         </Card>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {clients.map((client) => (
-          <Card key={client.id}>
-            <h3 className="text-lg font-semibold mb-2">{client.name}</h3>
-            {client.company && (
-              <p className="text-sm text-gray-600 mb-2">{client.company}</p>
-            )}
-            <div className="space-y-1 mb-4">
-              {client.email && (
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <Mail className="w-4 h-4" />
-                  {client.email}
-                </div>
+      <Card>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+          {paginatedData.map((client) => (
+            <div key={client.id} className="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-lg">
+              <h3 className="text-lg font-semibold mb-2 text-gray-800 dark:text-white">{client.name}</h3>
+              {client.company && (
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{client.company}</p>
               )}
-              {client.phone && (
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <Phone className="w-4 h-4" />
-                  {client.phone}
-                </div>
-              )}
+              <div className="space-y-1 mb-4">
+                {client.email && (
+                  <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                    <Mail className="w-4 h-4" />
+                    {client.email}
+                  </div>
+                )}
+                {client.phone && (
+                  <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                    <Phone className="w-4 h-4" />
+                    {client.phone}
+                  </div>
+                )}
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => handleEdit(client)}
+                  className="p-2 hover:bg-gray-200 dark:hover:bg-gray-600 rounded transition-colors"
+                  title="Editar"
+                >
+                  <Edit className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                </button>
+                <button
+                  onClick={() => handleDelete(client.id)}
+                  className="p-2 hover:bg-gray-200 dark:hover:bg-gray-600 rounded text-red-600 dark:text-red-400 transition-colors"
+                  title="Excluir"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
             </div>
-            <div className="flex gap-2">
-              <button
-                onClick={() => handleEdit(client)}
-                className="p-2 hover:bg-gray-100 rounded"
-              >
-                <Edit className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => handleDelete(client.id)}
-                className="p-2 hover:bg-gray-100 rounded text-red-600"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
-            </div>
-          </Card>
-        ))}
-      </div>
-
-      {clients.length === 0 && !showForm && (
-        <div className="text-center py-12">
-          <p className="text-gray-500">Nenhum cliente encontrado</p>
+          ))}
         </div>
-      )}
+
+        {clients.length === 0 && !showForm && (
+          <div className="text-center py-12">
+            <p className="text-gray-500 dark:text-gray-400">Nenhum cliente encontrado</p>
+          </div>
+        )}
+
+        {clients.length > 0 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={totalItems}
+            itemsPerPage={itemsPerPage}
+            onPageChange={goToPage}
+            onItemsPerPageChange={setItemsPerPage}
+          />
+        )}
+      </Card>
     </div>
   );
 };

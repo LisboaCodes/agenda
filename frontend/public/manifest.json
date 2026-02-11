@@ -1,0 +1,49 @@
+{
+  "name": "CONTROLE - Agenda Pessoal Completa",
+  "short_name": "CONTROLE",
+  "description": "Sua secretária digital completa para gerenciar notas, memórias, senhas, finanças e muito mais",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0ea5e9",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "utilities"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Nova Anotação",
+      "short_name": "Nota",
+      "description": "Criar nova anotação",
+      "url": "/notes",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Lembretes",
+      "short_name": "Lembretes",
+      "description": "Ver lembretes",
+      "url": "/reminders",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Financeiro",
+      "short_name": "Finanças",
+      "description": "Ver resumo financeiro",
+      "url": "/financial",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

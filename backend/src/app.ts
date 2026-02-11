@@ -17,6 +17,7 @@ import paymentsRoutes from './routes/payments.routes';
 import transactionsRoutes from './routes/transactions.routes';
 import remindersRoutes from './routes/reminders.routes';
 import whatsappRoutes from './routes/whatsapp.routes';
+import securityRoutes from './routes/security.routes';
 
 const app = express();
 
@@ -67,6 +68,7 @@ app.use('/api/payments', paymentsRoutes);
 app.use('/api/transactions', transactionsRoutes);
 app.use('/api/reminders', remindersRoutes);
 app.use('/api/whatsapp', whatsappRoutes);
+app.use('/api/security', securityRoutes);
 
 // 404 handler
 app.use(notFound);
